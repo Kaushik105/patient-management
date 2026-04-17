@@ -1,5 +1,7 @@
 package org.kaushik.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.groups.Default;
 import org.kaushik.dto.PatientRequestDto;
@@ -17,7 +19,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/patients")
+@Tag(name = "Patient", description = "Patient endpoints")
 public class PatientController {
 
     private final PatientService patientService;
@@ -27,13 +30,15 @@ public class PatientController {
     }
 
     // get all patients
-    @GetMapping("/patients")
+    @Operation(description = "Get patients")
+    @GetMapping("/")
     public ResponseEntity<List<PatientResponseDto>> getPatients(){
         return ResponseEntity.ok(patientService.getPatients().stream().map(PatientMapper::toDto).collect(Collectors.toList()));
     }
 
     // get a patient by id
-    @GetMapping("/patients/{id}")
+    @Operation(description = "Get a patient by Id")
+    @GetMapping("/{id}")
     public ResponseEntity<PatientResponseDto> getPatientById(@PathVariable UUID id) {
         Patient patient = patientService.getPatientById(id);
         if (patient == null) {
@@ -44,21 +49,24 @@ public class PatientController {
 
 
     // create a patient
-    @PostMapping("/patients")
+    @Operation(description = "Create a patient")
+    @PostMapping("/")
     public ResponseEntity<PatientResponseDto> createPatient(@Validated({Default.class, CreatePatientValidationGroup.class}) @RequestBody PatientRequestDto patientRequestDto) {
         Patient createdPatient = patientService.createPatient(patientRequestDto);
         return ResponseEntity.ok().body(PatientMapper.toDto(createdPatient));
     }
 
     // update a patient
-    @PutMapping("/patients/{id}")
+    @Operation(description = "Update a patient")
+    @PutMapping("/{id}")
     public ResponseEntity<PatientResponseDto> updatePatient(@PathVariable UUID id, @Validated({Default.class}) @RequestBody PatientRequestDto patientRequestDto) {
         Patient updatedPatient = patientService.updatePatient(id, patientRequestDto);
         return ResponseEntity.ok(PatientMapper.toDto(updatedPatient));
     }
 
     // delete a patient
-    @DeleteMapping("/patients/{id}")
+    @Operation(description = "Delete a patient")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePatient(@PathVariable UUID id) {
         patientService.deletePatient(id);
         return ResponseEntity.noContent().build();
