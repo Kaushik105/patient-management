@@ -1,4 +1,4 @@
-package org.kaushik.exception;
+package org.pm.patientservice.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

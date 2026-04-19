@@ -1,10 +1,10 @@
-package org.kaushik.services;
+package org.pm.patientservice.services;
 
-import org.kaushik.dto.PatientRequestDto;
-import org.kaushik.exception.EmailAlreadyExistsException;
-import org.kaushik.mapper.PatientMapper;
-import org.kaushik.model.Patient;
-import org.kaushik.repository.PatientRepository;
+import org.pm.patientservice.dto.PatientRequestDto;
+import org.pm.patientservice.exception.EmailAlreadyExistsException;
+import org.pm.patientservice.mapper.PatientMapper;
+import org.pm.patientservice.model.Patient;
+import org.pm.patientservice.repository.PatientRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

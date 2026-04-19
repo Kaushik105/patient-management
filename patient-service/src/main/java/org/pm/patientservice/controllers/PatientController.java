@@ -1,15 +1,14 @@
-package org.kaushik.controllers;
+package org.pm.patientservice.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import jakarta.validation.groups.Default;
-import org.kaushik.dto.PatientRequestDto;
-import org.kaushik.dto.PatientResponseDto;
-import org.kaushik.dto.validators.CreatePatientValidationGroup;
-import org.kaushik.mapper.PatientMapper;
-import org.kaushik.model.Patient;
-import org.kaushik.services.PatientService;
+import org.pm.patientservice.dto.PatientRequestDto;
+import org.pm.patientservice.dto.PatientResponseDto;
+import org.pm.patientservice.dto.validators.CreatePatientValidationGroup;
+import org.pm.patientservice.mapper.PatientMapper;
+import org.pm.patientservice.model.Patient;
+import org.pm.patientservice.services.PatientService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

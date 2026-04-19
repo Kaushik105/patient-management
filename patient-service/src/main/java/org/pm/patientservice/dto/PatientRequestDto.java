@@ -1,9 +1,9 @@
-package org.kaushik.dto;
+package org.pm.patientservice.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.kaushik.dto.validators.CreatePatientValidationGroup;
+import org.pm.patientservice.dto.validators.CreatePatientValidationGroup;
 
 public class PatientRequestDto {
     @NotBlank(message="name is required")

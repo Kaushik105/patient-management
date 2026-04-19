@@ -1,4 +1,4 @@
-package org.kaushik.exception;
+package org.pm.patientservice.exception;
 
 public class EmailAlreadyExistsException extends RuntimeException {
     public EmailAlreadyExistsException(String s) {

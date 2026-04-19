@@ -1,4 +1,4 @@
-package org.kaushik.model;
+package org.pm.patientservice.model;
 
 
 import jakarta.persistence.*;
