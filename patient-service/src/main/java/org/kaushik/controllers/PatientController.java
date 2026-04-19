@@ -31,7 +31,7 @@ public class PatientController {
 
     // get all patients
     @Operation(description = "Get patients")
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<PatientResponseDto>> getPatients(){
         return ResponseEntity.ok(patientService.getPatients().stream().map(PatientMapper::toDto).collect(Collectors.toList()));
     }
@@ -50,7 +50,7 @@ public class PatientController {
 
     // create a patient
     @Operation(description = "Create a patient")
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<PatientResponseDto> createPatient(@Validated({Default.class, CreatePatientValidationGroup.class}) @RequestBody PatientRequestDto patientRequestDto) {
         Patient createdPatient = patientService.createPatient(patientRequestDto);
         return ResponseEntity.ok().body(PatientMapper.toDto(createdPatient));
