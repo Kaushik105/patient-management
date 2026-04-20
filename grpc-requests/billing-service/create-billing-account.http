@@ -1,0 +1,9 @@
+
+GRPC http://localhost:9001/BillingService/CreateBllingAccount
+Content-Type: application/json
+
+{
+  "patientId": "12345",
+  "name": "John Doe",
+  "email": "test@gmail.com"
+}
