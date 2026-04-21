@@ -2,6 +2,7 @@ package org.pm.patientservice.services;
 
 import org.pm.patientservice.dto.PatientRequestDto;
 import org.pm.patientservice.exception.EmailAlreadyExistsException;
+import org.pm.patientservice.grpc.BillingServiceGrpcClient;
 import org.pm.patientservice.mapper.PatientMapper;
 import org.pm.patientservice.model.Patient;
 import org.pm.patientservice.repository.PatientRepository;
@@ -15,8 +16,10 @@ public class PatientService {
 
 
     private final PatientRepository patientRepository;
+    private final BillingServiceGrpcClient billingServiceGrpcClient;
 
-    public PatientService(PatientRepository patientRepository) {
+    public PatientService(PatientRepository patientRepository, BillingServiceGrpcClient billingServiceGrpcClient) {
+        this.billingServiceGrpcClient = billingServiceGrpcClient;
         this.patientRepository = patientRepository;
     }
 
@@ -35,7 +38,9 @@ public class PatientService {
         if(patientRepository.existsByEmail(patientRequestDto.getEmail())){
             throw new EmailAlreadyExistsException("Patient with email " + patientRequestDto.getEmail() + " already exists.");
         }
-        return patientRepository.save(PatientMapper.toModel(patientRequestDto));
+        Patient patient = patientRepository.save(PatientMapper.toModel(patientRequestDto));
+        billingServiceGrpcClient.CreateBillingAccount(patient.getId().toString(), patient.getName(), patient.getEmail());
+        return patient;
     }
 
     // update a patient
