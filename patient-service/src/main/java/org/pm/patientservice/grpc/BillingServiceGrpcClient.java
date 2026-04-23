@@ -31,7 +31,7 @@ public class BillingServiceGrpcClient {
                 .setName(name)
                 .setEmail(email)
                 .build();
-        BillingResponse response = billingServiceBlockingStub.createBllingAccount(request);
+        BillingResponse response = billingServiceBlockingStub.createBillingAccount(request);
         log.info("Received billing account creation response: {}", response);
         return response;
     }

@@ -13,7 +13,7 @@ public class BillingServiceGrpc extends BillingServiceImplBase {
     private static final Logger log = LoggerFactory.getLogger(BillingServiceGrpc.class);
 
     @Override
-    public void createBllingAccount(BillingRequest request, StreamObserver<BillingResponse> responseObserver) {
+    public void createBillingAccount(BillingRequest request, StreamObserver<BillingResponse> responseObserver) {
 
         log.info("Received billing request for {}", request.toString());
 
