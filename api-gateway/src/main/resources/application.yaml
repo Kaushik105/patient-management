@@ -5,14 +5,14 @@ spring:
   cloud:
     gateway.server.webflux:
       routes:
-        - id: patient-service
+        - id: patient-service-route
           predicates:
               - Path=/api/patients/**
           uri: http://patient-service:4000
           filters:
               - StripPrefix=1
 
-        - id: api-patient-service
+        - id: api-docs-patient-service
           predicates:
             - Path=/api-docs/patients
           uri: http://patient-service:4000

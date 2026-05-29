@@ -2,6 +2,9 @@ package com.kaushik.authservice.services;
 
 import com.kaushik.authservice.dto.LoginRequestDto;
 import com.kaushik.authservice.dto.RegisterRequestDto;
+import com.kaushik.authservice.exception.BadCredentialsException;
+import com.kaushik.authservice.exception.UserAlreadyExistsException;
+import com.kaushik.authservice.exception.UserNotFoundException;
 import com.kaushik.authservice.model.User;
 import com.kaushik.authservice.util.JwtUtil;
 import org.slf4j.Logger;
@@ -35,7 +38,7 @@ public class AuthService {
 
             Optional<User> existingUser = userService.findByEmail(email);
             if(existingUser.isPresent()) {
-                throw new RuntimeException("User already exists");
+                throw new UserAlreadyExistsException("User already exists with email: " + email);
             }
 
             // Create new user and save to database
@@ -53,11 +56,12 @@ public class AuthService {
             // Validate user credentials
             Optional<User> userOptional = userService.findByEmail(email);
             if(!userOptional.isPresent()) {
-                throw new RuntimeException("User not found");
+                throw new UserNotFoundException("User not found with email: " + email);
             }
 
-          return userOptional.filter((u -> passwordEncoder.matches(password, u.getPassword())))
-                  .map(u -> jwtUtil.generateToken(u.getRole(), u.getEmail()));
+          return Optional.of(userOptional.filter((u -> passwordEncoder.matches(password, u.getPassword())))
+                  .map(u -> jwtUtil.generateToken(u.getRole(), u.getEmail()))
+                  .orElseThrow(() -> new BadCredentialsException("Invalid password for email: " + email)));
 
         }
 
