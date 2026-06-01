@@ -5,12 +5,27 @@ spring:
   cloud:
     gateway.server.webflux:
       routes:
+        - id: auth-service-route
+          predicates:
+              - Path=/api/auth/**
+          uri: http://auth-service:4005
+          filters:
+              - StripPrefix=1
+
+        - id: api-docs-auth-service
+          predicates:
+            - Path=/api-docs/auth
+          uri: http://auth-service:4005
+          filters:
+            - RewritePath=/api-docs/auth, /api-docs
+
         - id: patient-service-route
           predicates:
               - Path=/api/patients/**
           uri: http://patient-service:4000
           filters:
               - StripPrefix=1
+              - AuthenticationFilter
 
         - id: api-docs-patient-service
           predicates:
