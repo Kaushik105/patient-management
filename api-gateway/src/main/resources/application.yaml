@@ -10,7 +10,7 @@ spring:
               - Path=/api/auth/**
           uri: http://auth-service:4005
           filters:
-              - StripPrefix=1
+              - StripPrefix=2
 
         - id: api-docs-auth-service
           predicates:
