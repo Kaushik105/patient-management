@@ -13,19 +13,18 @@ public class KafkaProducer {
     private static final Logger log = LoggerFactory.getLogger(KafkaProducer.class);
     private final KafkaTemplate<String, byte[]> kafkaTemplate;
 
-
     public KafkaProducer(KafkaTemplate<String, byte[]> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-
-    public void sendEvent(Patient patient){
-        PatientEvent event = PatientEvent.newBuilder()
-                .setPatientId(patient.getId().toString())
-                .setName(patient.getName())
-                .setEmail(patient.getEmail())
-                .setEventType("PATIENT_CREATED")
-                .build();
+    public void sendEvent(Patient patient) {
+        PatientEvent event =
+                PatientEvent.newBuilder()
+                        .setPatientId(patient.getId().toString())
+                        .setName(patient.getName())
+                        .setEmail(patient.getEmail())
+                        .setEventType("PATIENT_CREATED")
+                        .build();
 
         try {
             kafkaTemplate.send("patient", event.toByteArray());

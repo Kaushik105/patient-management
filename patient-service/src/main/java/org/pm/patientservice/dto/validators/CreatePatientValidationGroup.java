@@ -1,4 +1,3 @@
 package org.pm.patientservice.dto.validators;
 
-public interface CreatePatientValidationGroup {
-}
+public interface CreatePatientValidationGroup {}

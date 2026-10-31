@@ -1,0 +1,17 @@
+{
+  "app": "mvn -e -q compile exec:java",
+  "watch": {
+    "include": ["**"],
+    "exclude": [
+      "README.md",
+      "cdk*.json",
+      "target",
+      ".git",
+      ".idea"
+    ]
+  },
+  "context": {
+    "@aws-cdk/aws-ec2:restrictDefaultSecurityGroup": false,
+    "@aws-cdk/core:stackRelativeExports": true
+  }
+}

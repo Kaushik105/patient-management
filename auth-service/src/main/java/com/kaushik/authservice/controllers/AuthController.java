@@ -26,7 +26,8 @@ public class AuthController {
 
     @PostMapping("/login")
     @Operation(summary = "Authenticate user and return JWT token")
-    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<LoginResponseDto> login(
+            @Valid @RequestBody LoginRequestDto loginRequestDto) {
 
         String token = authService.authenticate(loginRequestDto).get();
         return ResponseEntity.ok(new LoginResponseDto(token));
@@ -34,7 +35,8 @@ public class AuthController {
 
     @PostMapping("/register")
     @Operation(summary = "Register a new user")
-    public ResponseEntity<Void> register(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
+    public ResponseEntity<Void> register(
+            @Valid @RequestBody RegisterRequestDto registerRequestDto) {
         authService.register(registerRequestDto);
         return ResponseEntity.ok().build();
     }
@@ -43,7 +45,7 @@ public class AuthController {
     @Operation(summary = "Validate JWT token")
     public ResponseEntity<Void> validateToken(@RequestHeader("Authorization") String authHeader) {
 
-        if(authHeader == null || !authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.status(400).build();
         }
 

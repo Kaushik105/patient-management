@@ -7,12 +7,11 @@ import com.kaushik.authservice.exception.UserAlreadyExistsException;
 import com.kaushik.authservice.exception.UserNotFoundException;
 import com.kaushik.authservice.model.User;
 import com.kaushik.authservice.util.JwtUtil;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -22,56 +21,59 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
 
-
     public AuthService(UserService userService, JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
         this.passwordEncoder = passwordEncoder;
     }
 
-        //Register service
-        public void register(RegisterRequestDto registerRequestDto) {
-            // Check if user already exists
-            String email = registerRequestDto.getEmail();
-            String password = registerRequestDto.getPassword();
-            String role = registerRequestDto.getRole();
+    // Register service
+    public void register(RegisterRequestDto registerRequestDto) {
+        // Check if user already exists
+        String email = registerRequestDto.getEmail();
+        String password = registerRequestDto.getPassword();
+        String role = registerRequestDto.getRole();
 
-            Optional<User> existingUser = userService.findByEmail(email);
-            if(existingUser.isPresent()) {
-                throw new UserAlreadyExistsException("User already exists with email: " + email);
-            }
-
-            // Create new user and save to database
-            User newUser = new User();
-            newUser.setEmail(email);
-            newUser.setPassword(passwordEncoder.encode(password));
-            newUser.setRole(role);
-            userService.save(newUser);
+        Optional<User> existingUser = userService.findByEmail(email);
+        if (existingUser.isPresent()) {
+            throw new UserAlreadyExistsException("User already exists with email: " + email);
         }
 
-        public Optional<String> authenticate(LoginRequestDto loginRequestDto) {
+        // Create new user and save to database
+        User newUser = new User();
+        newUser.setEmail(email);
+        newUser.setPassword(passwordEncoder.encode(password));
+        newUser.setRole(role);
+        userService.save(newUser);
+    }
 
-            String email = loginRequestDto.getEmail();
-            String password = loginRequestDto.getPassword();
-            // Validate user credentials
-            Optional<User> userOptional = userService.findByEmail(email);
-            if(!userOptional.isPresent()) {
-                throw new UserNotFoundException("User not found with email: " + email);
-            }
+    public Optional<String> authenticate(LoginRequestDto loginRequestDto) {
 
-          return Optional.of(userOptional.filter((u -> passwordEncoder.matches(password, u.getPassword())))
-                  .map(u -> jwtUtil.generateToken(u.getRole(), u.getEmail()))
-                  .orElseThrow(() -> new BadCredentialsException("Invalid password for email: " + email)));
-
+        String email = loginRequestDto.getEmail();
+        String password = loginRequestDto.getPassword();
+        // Validate user credentials
+        Optional<User> userOptional = userService.findByEmail(email);
+        if (!userOptional.isPresent()) {
+            throw new UserNotFoundException("User not found with email: " + email);
         }
 
-        public boolean validateToken(String token) {
-           try {
-               jwtUtil.validateToken(token);
-               return true;
-           } catch (Exception e) {
-               log.info(e.getMessage());
-               return false;
-           }
+        return Optional.of(
+                userOptional
+                        .filter((u -> passwordEncoder.matches(password, u.getPassword())))
+                        .map(u -> jwtUtil.generateToken(u.getRole(), u.getEmail()))
+                        .orElseThrow(
+                                () ->
+                                        new BadCredentialsException(
+                                                "Invalid password for email: " + email)));
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            jwtUtil.validateToken(token);
+            return true;
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            return false;
         }
+    }
 }

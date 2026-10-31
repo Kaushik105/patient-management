@@ -6,8 +6,8 @@ import jakarta.validation.constraints.Size;
 import org.pm.patientservice.dto.validators.CreatePatientValidationGroup;
 
 public class PatientRequestDto {
-    @NotBlank(message="name is required")
-    @Size(max=100, message = "name length can't exceed 100")
+    @NotBlank(message = "name is required")
+    @Size(max = 100, message = "name length can't exceed 100")
     private String name;
 
     @NotBlank(message = "email can't be blank")
@@ -20,7 +20,7 @@ public class PatientRequestDto {
     @NotBlank(message = "date of birth is required")
     private String dateOfBirth;
 
-    @NotBlank( groups=CreatePatientValidationGroup.class,message = "date of register is required")
+    @NotBlank(groups = CreatePatientValidationGroup.class, message = "date of register is required")
     private String dateOfRegister;
 
     public String getName() {

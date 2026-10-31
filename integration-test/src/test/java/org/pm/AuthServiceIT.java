@@ -1,12 +1,12 @@
 package org.pm;
 
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.notNullValue;
+
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.notNullValue;
 
 public class AuthServiceIT {
 
@@ -19,7 +19,8 @@ public class AuthServiceIT {
     @Test
     public void testUserRegistrationAndLogin() {
         // 1. Register User
-        String registerPayload = """
+        String registerPayload =
+                """
                 {
                     "password": "password123",
                     "email": "test@it.com",
@@ -27,29 +28,28 @@ public class AuthServiceIT {
                 }
                 """;
 
-        given()
-            .contentType(ContentType.JSON)
-            .body(registerPayload)
-        .when()
-            .post("/register")
-        .then()
-            .statusCode(200);
+        given().contentType(ContentType.JSON)
+                .body(registerPayload)
+                .when()
+                .post("/register")
+                .then()
+                .statusCode(200);
 
         // 2. Login User
-        String loginPayload = """
+        String loginPayload =
+                """
                 {
                     "email": "test@it.com",
                     "password": "password123"
                 }
                 """;
 
-        given()
-            .contentType(ContentType.JSON)
-            .body(loginPayload)
-        .when()
-            .post("/login")
-        .then()
-            .statusCode(200)
-            .body("token", notNullValue());
+        given().contentType(ContentType.JSON)
+                .body(loginPayload)
+                .when()
+                .post("/login")
+                .then()
+                .statusCode(200)
+                .body("token", notNullValue());
     }
 }

@@ -15,5 +15,5 @@ WORKDIR /app
 # Prefer explicit jar name if stable
 COPY --from=builder /app/target/billing-service-0.0.1-SNAPSHOT.jar app.jar
 
-EXPOSE 4000
+EXPOSE 4001 9001
 ENTRYPOINT ["java", "-jar", "app.jar"]

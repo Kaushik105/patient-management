@@ -1,11 +1,9 @@
 package com.kaushik.authservice.services;
 
-
 import com.kaushik.authservice.model.User;
 import com.kaushik.authservice.repository.UserRepository;
-import org.springframework.stereotype.Service;
-
 import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {

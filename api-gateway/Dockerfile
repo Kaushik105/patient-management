@@ -15,5 +15,5 @@ WORKDIR /app
 # Prefer explicit jar name if stable
 COPY --from=builder /app/target/api-gateway-0.0.1-SNAPSHOT.jar app.jar
 
-EXPOSE 4002
+EXPOSE 4003
 ENTRYPOINT ["java", "-jar", "app.jar"]

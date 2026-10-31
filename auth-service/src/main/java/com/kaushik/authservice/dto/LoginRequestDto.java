@@ -11,8 +11,7 @@ public class LoginRequestDto {
     @NotBlank(message = "Password is required")
     private String password;
 
-    public LoginRequestDto() {
-    }
+    public LoginRequestDto() {}
 
     public LoginRequestDto(String email, String password) {
         this.email = email;

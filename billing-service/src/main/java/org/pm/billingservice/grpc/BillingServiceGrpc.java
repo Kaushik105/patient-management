@@ -13,14 +13,16 @@ public class BillingServiceGrpc extends BillingServiceImplBase {
     private static final Logger log = LoggerFactory.getLogger(BillingServiceGrpc.class);
 
     @Override
-    public void createBillingAccount(BillingRequest request, StreamObserver<BillingResponse> responseObserver) {
+    public void createBillingAccount(
+            BillingRequest request, StreamObserver<BillingResponse> responseObserver) {
 
         log.info("Received billing request for {}", request.toString());
 
-        BillingResponse response = BillingResponse.newBuilder()
-                .setAccountId("ACC-6493574198")
-                .setStatus("ACTIVE")
-                .build();
+        BillingResponse response =
+                BillingResponse.newBuilder()
+                        .setAccountId("ACC-6493574198")
+                        .setStatus("ACTIVE")
+                        .build();
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();

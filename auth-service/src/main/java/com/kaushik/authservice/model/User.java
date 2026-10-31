@@ -1,8 +1,6 @@
 package com.kaushik.authservice.model;
 
-
 import jakarta.persistence.*;
-
 import java.util.UUID;
 
 @Entity
